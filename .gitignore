@@ -1,0 +1,35 @@
+# Node modules
+node_modules/
+
+# Compiled output
+dist/
+out/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# VSCode extension test files
+.vscode-test/
+.vscode-test-web/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE settings (optional - uncomment if you don't want to share)
+# .vscode/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+
+# Package files (optional - uncomment if using alternative package managers)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml

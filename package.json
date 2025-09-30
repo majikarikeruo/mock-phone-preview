@@ -1,0 +1,71 @@
+{
+  "name": "mock-phone-preview",
+  "displayName": "Mock Phone Preview",
+  "description": "Live phone-framed preview for HTML/CSS with realistic device frames (iPhone, Galaxy, Pixel)",
+  "version": "0.1.2",
+  "publisher": "TatsuyaKosuge",
+  "engines": {
+    "vscode": "^1.86.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "html",
+    "css",
+    "preview",
+    "mobile",
+    "phone",
+    "responsive",
+    "iphone",
+    "android",
+    "device frame"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/mock-phone-preview"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/mock-phone-preview/issues"
+  },
+  "license": "MIT",
+  "activationEvents": [
+    "onCommand:mockPhonePreview.start"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mockPhonePreview.start",
+        "title": "Preview in Phone Frame"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "mockPhonePreview.start",
+          "when": "resourceLangId == html",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "mockPhonePreview.start",
+          "when": "resourceLangId == html",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/vscode": "^1.86.0",
+    "typescript": "^5.4.5"
+  }
+}
