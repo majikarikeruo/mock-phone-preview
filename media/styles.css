@@ -272,3 +272,130 @@ body {
   background: rgba(148, 163, 184, 0.3);
   border-radius: 3px;
 }
+
+.qr-panel {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  z-index: 100;
+  background: #1f2937;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 280px;
+}
+
+.qr-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #374151;
+  color: #e2e8f0;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.qr-close-btn:hover {
+  background: #475569;
+  border-color: #64748b;
+  transform: scale(1.1);
+}
+
+.qr-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.qr-content h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.qr-code {
+  width: 200px;
+  height: 200px;
+  background: white;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.server-url {
+  font-size: 13px;
+  color: #3b82f6;
+  font-family: 'Courier New', monospace;
+  background: #0f172a;
+  padding: 8px 12px;
+  border-radius: 6px;
+  word-break: break-all;
+  text-align: center;
+}
+
+.qr-hint {
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: center;
+  margin: 0;
+  max-width: 240px;
+  line-height: 1.4;
+}
+
+.icon-button {
+  background: #1f2937;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+  background: #374151;
+  border-color: #475569;
+  transform: translateY(-1px);
+}
+
+.icon-button:active {
+  transform: translateY(0);
+}
+
+.icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.icon-button svg {
+  display: block;
+}
+
+/* Device rotation */
+.device.rotated {
+  transform: rotate(90deg);
+  transition: transform 0.5s ease;
+}
+
+.device {
+  transition: transform 0.5s ease;
+}

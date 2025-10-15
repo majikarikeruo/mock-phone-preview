@@ -1,0 +1,23 @@
+# Development files
+.vscode/**
+.vscode-test/**
+.claude/**
+src/**
+tsconfig.json
+webpack.config.js
+.gitignore
+.git/**
+
+# Test and sample files
+test-sample.html
+samples/**
+
+# Node modules (bundled by webpack)
+node_modules/**
+
+# Build outputs
+**/*.map
+
+# OS files
+.DS_Store
+Thumbs.db

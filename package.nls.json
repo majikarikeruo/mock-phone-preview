@@ -1,0 +1,28 @@
+{
+  "displayName": "Mock Phone Preview",
+  "description": "Live phone-framed preview for HTML/CSS with realistic device frames (iPhone, Galaxy, Pixel)",
+  "command.start": "Preview in Phone Frame",
+
+  "message.openHtmlFile": "Please open an HTML file to preview.",
+  "message.saveFile": "Please save the file before starting preview.",
+  "message.htmlOnly": "Mock Phone Preview is for HTML files only.",
+  "message.fileDeleted": "{0} was deleted. Cannot update preview.",
+  "message.updateFailed": "Failed to update Mock Phone Preview: {0}",
+  "message.noLocalIp": "Could not retrieve local IP address.",
+  "message.externalServer": "External access server: {0}",
+  "message.qrFailed": "Failed to generate QR code: {0}",
+  "message.cssLoadFailed": "Could not load CSS: {0} ({1})",
+
+  "ui.fileLabel": "Mock Phone Preview",
+  "ui.device": "Device",
+  "ui.wallpaper": "Wallpaper",
+  "ui.image": "Image",
+  "ui.frame": "Frame",
+  "ui.externalPreview": "External Preview",
+  "ui.rotate": "Rotate device",
+  "ui.qrTitle": "Scan with your phone",
+  "ui.qrHint": "※ Your PC and phone must be connected to the same Wi-Fi network",
+  "ui.serverUrl": "Server URL",
+  "ui.status": "Preparing preview...",
+  "ui.close": "Close"
+}

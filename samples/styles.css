@@ -1,6 +1,6 @@
 :root {
   color-scheme: light;
-  font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
+  font-family: "Helvetica Neue", "Segoe UI", sans-serif;
 }
 
 body {
@@ -12,7 +12,7 @@ body {
 .hero {
   padding: 48px 24px;
   text-align: center;
-  background: linear-gradient(135deg, #4338ca, #4c51bf);
+  background: linear-gradient(135deg, #000000, #4c51bf);
   color: #fff;
 }
 

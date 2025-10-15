@@ -1,0 +1,28 @@
+{
+  "displayName": "Mock Phone Preview",
+  "description": "スマホフレーム内でHTML/CSSをリアルタイムプレビュー（iPhone、Galaxy、Pixel対応）",
+  "command.start": "スマホフレームでプレビュー",
+
+  "message.openHtmlFile": "プレビューしたい HTML ファイルを開いてください。",
+  "message.saveFile": "ファイルを保存してからプレビューを開始してください。",
+  "message.htmlOnly": "Mock Phone Preview は HTML ファイル向けの機能です。",
+  "message.fileDeleted": "{0} が削除されたため、プレビューを更新できません。",
+  "message.updateFailed": "Mock Phone Preview の更新に失敗しました: {0}",
+  "message.noLocalIp": "ローカルIPアドレスを取得できませんでした。",
+  "message.externalServer": "外部アクセス用サーバー: {0}",
+  "message.qrFailed": "QRコードの生成に失敗しました: {0}",
+  "message.cssLoadFailed": "CSS を読み込めませんでした: {0} ({1})",
+
+  "ui.fileLabel": "Mock Phone Preview",
+  "ui.device": "デバイス",
+  "ui.wallpaper": "壁紙",
+  "ui.image": "画像",
+  "ui.frame": "フレーム",
+  "ui.externalPreview": "実機プレビュー",
+  "ui.rotate": "デバイスを回転",
+  "ui.qrTitle": "スマホでスキャン",
+  "ui.qrHint": "※ PCとスマホが同じWi-Fiに接続されている必要があります",
+  "ui.serverUrl": "サーバーURL",
+  "ui.status": "プレビューの準備中…",
+  "ui.close": "閉じる"
+}
