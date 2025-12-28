@@ -60,6 +60,14 @@
   const qrCode = document.getElementById('qr-code');
   const serverUrl = document.getElementById('server-url');
   const qrCloseBtn = document.getElementById('qr-close-btn');
+  const themeToggle = document.getElementById('theme-toggle');
+  const screenshotBtn = document.getElementById('screenshot-btn');
+  const recordBtn = document.getElementById('record-btn');
+
+  // Recording state
+  let mediaRecorder = null;
+  let recordedChunks = [];
+  let isRecording = false;
 
   function populateDeviceOptions() {
     deviceSelect.innerHTML = '';
@@ -155,9 +163,45 @@
     persistState();
   }
 
+  function updateThemeButtonStyle() {
+    if (!themeToggle) return;
+
+    const mode = state.darkMode;
+    if (mode === 'dark') {
+      themeToggle.style.color = '#fbbf24'; // Yellow for dark mode
+      themeToggle.title = 'ダークモード (次: システム)';
+      themeToggle.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      `;
+    } else if (mode === 'light') {
+      themeToggle.style.color = '#f59e0b'; // Orange for light mode
+      themeToggle.title = 'ライトモード (次: ダーク)';
+      themeToggle.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      `;
+    } else {
+      themeToggle.style.color = '#9ca3af'; // Gray for system
+      themeToggle.title = 'システム設定 (次: ライト)';
+      themeToggle.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      `;
+    }
+  }
+
   function applyDarkMode(mode) {
     console.log('[applyDarkMode] Mode:', mode, 'iframe:', !!previewFrame, 'contentDoc:', !!previewFrame?.contentDocument);
     try {
+      // Update button style first
+      updateThemeButtonStyle();
+
       const iframe = previewFrame;
       if (!iframe || !iframe.contentDocument) {
         console.warn('[applyDarkMode] iframe or contentDocument not available');
@@ -210,20 +254,7 @@
       }
 
       doc.head.appendChild(style);
-
-      // Update button appearance and tooltip
-      if (mode === 'dark') {
-        themeToggle.style.color = '#fbbf24'; // Yellow for dark mode
-        themeToggle.title = 'ダークモード (次: システム)';
-      } else if (mode === 'light') {
-        themeToggle.style.color = '#60a5fa'; // Blue for light mode
-        themeToggle.title = 'ライトモード (次: ダーク)';
-      } else {
-        themeToggle.style.color = '#9ca3af'; // Gray for system
-        themeToggle.title = 'システム設定 (次: ライト)';
-      }
-
-      console.log('[applyDarkMode] Button updated, color:', themeToggle.style.color);
+      console.log('[applyDarkMode] Style applied');
     } catch (error) {
       console.error('[applyDarkMode] Error:', error);
     }
@@ -382,6 +413,152 @@
     } catch (error) {
       console.error('[takeScreenshot] Error:', error);
       screenshotBtn.disabled = false;
+    }
+  }
+
+  async function startRecording() {
+    console.log('[startRecording] Starting...');
+    try {
+      // Create a canvas to capture the device frame
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Set canvas size based on device frame
+      const rect = deviceFrame.getBoundingClientRect();
+      canvas.width = rect.width * 2; // 2x for quality
+      canvas.height = rect.height * 2;
+
+      // Load html2canvas if not loaded
+      if (typeof html2canvas === 'undefined') {
+        console.log('[startRecording] Loading html2canvas...');
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+
+      isRecording = true;
+      recordedChunks = [];
+
+      // Update button appearance
+      recordBtn.style.color = '#ef4444';
+      recordBtn.title = window.l10n?.stopRecord || 'Stop';
+      recordBtn.classList.add('recording');
+      recordBtn.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+          <rect x="6" y="6" width="12" height="12" rx="2"/>
+        </svg>
+      `;
+
+      setStatus('録画中...');
+
+      // Start capturing frames
+      const stream = canvas.captureStream(30); // 30 fps
+      mediaRecorder = new MediaRecorder(stream, {
+        mimeType: 'video/webm;codecs=vp9',
+        videoBitsPerSecond: 5000000
+      });
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        console.log('[startRecording] Saving video...');
+        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `mockphone-recording-${Date.now()}.webm`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        setStatus('録画を保存しました');
+        vscode.postMessage({
+          type: 'notify',
+          level: 'info',
+          message: '録画を保存しました'
+        });
+      };
+
+      mediaRecorder.start(100); // Collect data every 100ms
+
+      // Capture frames in a loop
+      const captureFrame = async () => {
+        if (!isRecording) return;
+
+        try {
+          const capturedCanvas = await html2canvas(deviceFrame, {
+            backgroundColor: null,
+            scale: 2,
+            logging: false,
+            useCORS: true
+          });
+
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(capturedCanvas, 0, 0, canvas.width, canvas.height);
+        } catch (err) {
+          console.error('[captureFrame] Error:', err);
+        }
+
+        if (isRecording) {
+          requestAnimationFrame(captureFrame);
+        }
+      };
+
+      captureFrame();
+
+      vscode.postMessage({
+        type: 'notify',
+        level: 'info',
+        message: '録画を開始しました'
+      });
+
+    } catch (error) {
+      console.error('[startRecording] Error:', error);
+      isRecording = false;
+      vscode.postMessage({
+        type: 'notify',
+        level: 'error',
+        message: '録画の開始に失敗しました: ' + error.message
+      });
+    }
+  }
+
+  function stopRecording() {
+    console.log('[stopRecording] Stopping...');
+    isRecording = false;
+
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.stop();
+    }
+
+    // Reset button appearance
+    recordBtn.style.color = '';
+    recordBtn.title = window.l10n?.record || 'Record';
+    recordBtn.classList.remove('recording');
+    recordBtn.innerHTML = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="12" cy="12" r="3" fill="currentColor"/>
+      </svg>
+    `;
+
+    setStatus('録画停止');
+  }
+
+  function toggleRecording() {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
     }
   }
 
@@ -558,6 +735,41 @@
           enable: false
         });
       });
+    }
+
+    // Theme toggle button
+    if (themeToggle) {
+      console.log('[bootstrap] Attaching theme toggle listener');
+      themeToggle.addEventListener('click', () => {
+        console.log('[themeToggle] Clicked!');
+        cycleDarkMode();
+      });
+      // Apply initial theme button style
+      updateThemeButtonStyle();
+    } else {
+      console.error('[bootstrap] themeToggle element not found!');
+    }
+
+    // Screenshot button
+    if (screenshotBtn) {
+      console.log('[bootstrap] Attaching screenshot button listener');
+      screenshotBtn.addEventListener('click', () => {
+        console.log('[screenshotBtn] Clicked!');
+        takeScreenshot();
+      });
+    } else {
+      console.error('[bootstrap] screenshotBtn element not found!');
+    }
+
+    // Record button
+    if (recordBtn) {
+      console.log('[bootstrap] Attaching record button listener');
+      recordBtn.addEventListener('click', () => {
+        console.log('[recordBtn] Clicked!');
+        toggleRecording();
+      });
+    } else {
+      console.error('[bootstrap] recordBtn element not found!');
     }
 
     // Apply initial rotation

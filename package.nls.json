@@ -24,5 +24,12 @@
   "ui.qrHint": "※ Your PC and phone must be connected to the same Wi-Fi network",
   "ui.serverUrl": "Server URL",
   "ui.status": "Preparing preview...",
-  "ui.close": "Close"
+  "ui.close": "Close",
+  "ui.darkMode": "Theme",
+  "ui.screenshot": "Screenshot",
+  "ui.record": "Record",
+  "ui.stopRecord": "Stop",
+  "ui.screenshotSaved": "Screenshot saved",
+  "ui.recordingStarted": "Recording started",
+  "ui.recordingSaved": "Recording saved"
 }

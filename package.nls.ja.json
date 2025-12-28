@@ -24,5 +24,12 @@
   "ui.qrHint": "※ PCとスマホが同じWi-Fiに接続されている必要があります",
   "ui.serverUrl": "サーバーURL",
   "ui.status": "プレビューの準備中…",
-  "ui.close": "閉じる"
+  "ui.close": "閉じる",
+  "ui.darkMode": "テーマ",
+  "ui.screenshot": "スクショ",
+  "ui.record": "録画",
+  "ui.stopRecord": "停止",
+  "ui.screenshotSaved": "スクリーンショットを保存しました",
+  "ui.recordingStarted": "録画を開始しました",
+  "ui.recordingSaved": "録画を保存しました"
 }
