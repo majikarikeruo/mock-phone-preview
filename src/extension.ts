@@ -495,6 +495,10 @@ class PreviewSession implements vscode.Disposable {
       qrHint: vscode.l10n.t("ui.qrHint"),
       status: vscode.l10n.t("ui.status"),
       close: vscode.l10n.t("ui.close"),
+      darkMode: vscode.l10n.t("ui.darkMode"),
+      screenshot: vscode.l10n.t("ui.screenshot"),
+      record: vscode.l10n.t("ui.record"),
+      stopRecord: vscode.l10n.t("ui.stopRecord"),
     };
 
     return `<!DOCTYPE html>
@@ -534,6 +538,25 @@ class PreviewSession implements vscode.Disposable {
         <button id="rotate-btn" class="icon-button" title="${l10n.rotate}">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/>
+          </svg>
+        </button>
+        <button id="theme-toggle" class="icon-button" title="${l10n.darkMode}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+        <button id="screenshot-btn" class="icon-button" title="${l10n.screenshot}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </button>
+        <button id="record-btn" class="icon-button" title="${l10n.record}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="3" fill="currentColor"/>
           </svg>
         </button>
       </div>
